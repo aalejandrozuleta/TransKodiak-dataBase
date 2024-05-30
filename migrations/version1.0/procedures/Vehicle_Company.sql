@@ -18,18 +18,7 @@ END //
 DELIMITER ;
 
 ---------------------------------------------------------------
-DELIMITER //
 
-CREATE PROCEDURE DeleteVehicleCompany(
-    IN company_nit VARCHAR(30)
-)
-BEGIN
-    DELETE FROM Vehicle_Company
-    WHERE nit = company_nit;
-END //
-
-DELIMITER ;
-----------------------------------------------------------------
 DELIMITER //
 
 CREATE PROCEDURE UpdateVehicleCompany(

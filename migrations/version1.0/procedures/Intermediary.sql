@@ -42,20 +42,6 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE DeleteIntermediary(
-    IN intermediary_id INT
-)
-BEGIN
-    DELETE FROM Intermediary
-    WHERE intermediary_id = intermediary_id;
-END //
-
-DELIMITER ;
-
-----------------------------------------------------------------
-
-DELIMITER //
-
 CREATE PROCEDURE GetAllIntermediaries()
 BEGIN
     SELECT * FROM Intermediary;
