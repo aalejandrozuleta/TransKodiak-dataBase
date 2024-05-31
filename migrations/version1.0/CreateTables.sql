@@ -24,6 +24,7 @@ create table
         login_attempts int default 0,
         locked_until datetime,
         stateCompanyVehicle ENUM ('enabled', 'disabled') default 'enabled' index,
+        password varchar (255),
         fk_card_number varchar(100) not null,
         foreign key (fk_card_number) references Card (card_number)
     );
@@ -40,6 +41,7 @@ create table
         login_attempts int default 0,
         locked_until datetime,
         stateIntermediary ENUM ('enabled', 'disabled') default 'enabled' index,
+        password varchar (255),
         fk_card_number varchar(100) not null,
         foreign key (fk_card_number) references Card (card_number)
     );
@@ -54,11 +56,13 @@ create table
         phone varchar(15),
         license varchar(30) not null,
         status ENUM ('Active', 'Inactive', 'In transit') index default 'Inactive',
+        password varchar
         fk_nit varchar(30) not null unsigned,
         foreign key (fk_nit) references Vehicle_Company (nit),
         login_attempts int default 0,
         locked_until datetime,
         stateTransporter ENUM ('enabled', 'disabled') default 'enabled' index,
+        password varchar (255),
         fk_card_number varchar(100) not null,
         foreign key (fk_card_number) references Card (card_number)
     );
