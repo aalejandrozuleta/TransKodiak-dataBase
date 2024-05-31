@@ -56,7 +56,6 @@ create table
         phone varchar(15),
         license varchar(30) not null,
         status ENUM ('Active', 'Inactive', 'In transit') index default 'Inactive',
-        password varchar
         fk_nit varchar(30) not null unsigned,
         foreign key (fk_nit) references Vehicle_Company (nit),
         login_attempts int default 0,
