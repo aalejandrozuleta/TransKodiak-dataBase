@@ -1,99 +1,101 @@
--- Creación de la base de datos
-create database Transkodiak;
-use Transkodiak;
-
--- Tabla card
-create table
-    Card (
-        card_number varchar(100) not null primary key,
-        expiration_date date not null,
-        cvv varchar(100) not null,
-    );
+-- Creacion de tablas
+-- Tabla Card
+CREATE TABLE Card (
+    card_number VARCHAR(100) NOT NULL PRIMARY KEY,
+    expiration_date DATE NOT NULL,
+    cvv VARCHAR(100) NOT NULL
+);
 
 -- Tabla Vehicle_Company
-create table
-    Vehicle_Company (
-        nit varchar(30) primary key not null,
-        name varchar(50) not null,
-        phone varchar(15),
-        email varchar(50) unique,
-        address varchar(100),
-        monthly_fee float,
-        transporter_count int,
-        vehicle_count int,
-        login_attempts int default 0,
-        locked_until datetime,
-        stateCompanyVehicle ENUM ('enabled', 'disabled') default 'enabled' index,
-        password varchar (255),
-        fk_card_number varchar(100) not null,
-        foreign key (fk_card_number) references Card (card_number)
-    );
+CREATE TABLE Vehicle_Company (
+    nit VARCHAR(30) PRIMARY KEY NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    phone VARCHAR(15),
+    email VARCHAR(50) UNIQUE,
+    address VARCHAR(100),
+    monthly_fee FLOAT,
+    transporter_count INT,
+    vehicle_count INT,
+    login_attempts INT DEFAULT 0,
+    locked_until DATETIME,
+    stateCompanyVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    password VARCHAR(255),
+    fk_card_number VARCHAR(100) NOT NULL,
+    FOREIGN KEY (fk_card_number) REFERENCES Card (card_number),
+    INDEX idx_stateCompanyVehicle (stateCompanyVehicle)
+);
 
 -- Tabla Intermediary
-create table
-    Intermediary (
-        intermediary_id int primary key auto_increment not null,
-        name varchar(50) not null,
-        email varchar(50) not null,
-        phone varchar(15) not,
-        monthly_fee float not null,
-        address varchar(100) not null,
-        login_attempts int default 0,
-        locked_until datetime,
-        stateIntermediary ENUM ('enabled', 'disabled') default 'enabled' index,
-        password varchar (255),
-        fk_card_number varchar(100) not null,
-        foreign key (fk_card_number) references Card (card_number)
-    );
+CREATE TABLE Intermediary (
+    intermediary_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    monthly_fee FLOAT NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    login_attempts INT DEFAULT 0,
+    locked_until DATETIME,
+    stateIntermediary ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    password VARCHAR(255),
+    fk_card_number VARCHAR(100) NOT NULL,
+    FOREIGN KEY (fk_card_number) REFERENCES Card (card_number),
+    INDEX idx_stateIntermediary (stateIntermediary)
+);
 
 -- Tabla Transporter
-create table
-    Transporter (
-        transporter_id int primary key auto_increment not null,
-        name varchar(50) not null,
-        id_number varchar(20) not null unique,
-        email varchar(50) unique,
-        phone varchar(15),
-        license varchar(30) not null,
-        status ENUM ('Active', 'Inactive', 'In transit') index default 'Inactive',
-        fk_nit varchar(30) not null unsigned,
-        foreign key (fk_nit) references Vehicle_Company (nit),
-        login_attempts int default 0,
-        locked_until datetime,
-        stateTransporter ENUM ('enabled', 'disabled') default 'enabled' index,
-        password varchar (255),
-        fk_card_number varchar(100) not null,
-        foreign key (fk_card_number) references Card (card_number)
-    );
+CREATE TABLE Transporter (
+    transporter_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    id_number VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(50) UNIQUE,
+    phone VARCHAR(15),
+    license VARCHAR(30) NOT NULL,
+    statusTransporter ENUM ('Active', 'Inactive', 'In transit') DEFAULT 'Inactive',
+    fk_nit VARCHAR(30) NOT NULL,
+    FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
+    login_attempts INT DEFAULT 0,
+    locked_until DATETIME,
+    stateTransporter ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    password VARCHAR(255),
+    INDEX idx_statusTransporter (statusTransporter),
+    INDEX idx_stateTransporter (stateTransporter)
+);
 
--- Tabla Trips
-create table
-    Travel (
-        trip_id int primary key auto_increment not null,
-        weight int unsigned not null index,
-        origin varchar(100) not null index,
-        destination varchar(100) not null index,
-        payment float unsigned not null,
-        description varchar(255),
-        departureDate date not null index,
-        deliverDate date not null index,
-        stateTravel ENUM ('enabled', 'disabled') default 'enabled' index,
-        fk_transporter_id int not null unsigned,
-        fk_intermediary_id int not null unsigned,
-        foreign key (fk_transporter_id) references Transporter (transporter_id),
-        foreign key (fk_intermediary_id) references Intermediary (intermediary_id) on delete cascade
-    );
+-- Tabla Travel
+CREATE TABLE Travel (
+    trip_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    weight INT UNSIGNED NOT NULL,
+    origin VARCHAR(100) NOT NULL,
+    destination VARCHAR(100) NOT NULL,
+    payment FLOAT UNSIGNED NOT NULL,
+    description VARCHAR(255),
+    departureDate DATE NOT NULL,
+    deliverDate DATE NOT NULL,
+    stateTravel ENUM('enabled', 'disabled') DEFAULT 'enabled',
+    fk_transporter_id INT UNSIGNED NOT NULL,
+    fk_intermediary_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (fk_transporter_id) REFERENCES Transporter(transporter_id),
+    FOREIGN KEY (fk_intermediary_id) REFERENCES Intermediary(intermediary_id) ON DELETE CASCADE,
+    INDEX idx_weight (weight),
+    INDEX idx_origin (origin),
+    INDEX idx_destination (destination),
+    INDEX idx_departureDate (departureDate),
+    INDEX idx_deliverDate (deliverDate),
+    INDEX idx_stateTravel (stateTravel)
+);
 
 -- Tabla Vehicle
-create table
-    Vehicle (
-        license_plate varchar(10) primary key not null,
-        description varchar(255),
-        capacity float not null index,
-        vehicle_type varchar(50) not null index,
-        load_type varchar(50) not null index,
-        stateVehicle ENUM ('enabled', 'disabled') index,
-        fk_vehicle_company_id varchar(30) not null,
-        foreign key (fk_vehicle_company_id) references Vehicle_Company (nit) on delete cascade
-    );
-
+CREATE TABLE Vehicle (
+    license_plate VARCHAR(10) PRIMARY KEY NOT NULL,
+    description VARCHAR(255),
+    capacity FLOAT NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL,
+    load_type VARCHAR(50) NOT NULL,
+    stateVehicle ENUM ('enabled', 'disabled'),
+    fk_vehicle_company_id VARCHAR(30) NOT NULL,
+    FOREIGN KEY (fk_vehicle_company_id) REFERENCES Vehicle_Company (nit) ON DELETE CASCADE,
+    INDEX idx_capacity (capacity),
+    INDEX idx_vehicle_type (vehicle_type),
+    INDEX idx_load_type (load_type),
+    INDEX idx_stateVehicle (stateVehicle)
+);
