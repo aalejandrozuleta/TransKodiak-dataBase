@@ -1,64 +1,49 @@
-DELIMITER //
-
-CREATE PROCEDURE CreateIntermediary(
-    IN intermediary_name VARCHAR(50),
-    IN intermediary_email VARCHAR(50),
-    IN intermediary_phone VARCHAR(15),
-    IN intermediary_monthly_fee FLOAT,
-    IN intermediary_address VARCHAR(100)
-)
-BEGIN
-    INSERT INTO Intermediary (name, email, phone, monthly_fee, address)
-    VALUES (intermediary_name, intermediary_email, intermediary_phone, intermediary_monthly_fee, intermediary_address);
-END //
-
-DELIMITER ;
-
------------------------------------------------------------------
+-- Procedimientos almacenados de la tabla intermediary
 
 DELIMITER //
-
-CREATE PROCEDURE UpdateIntermediary(
-    IN intermediary_id INT,
-    IN intermediary_name VARCHAR(50),
-    IN intermediary_email VARCHAR(50),
-    IN intermediary_phone VARCHAR(15),
-    IN intermediary_monthly_fee FLOAT,
-    IN intermediary_address VARCHAR(100)
-)
-BEGIN
-    UPDATE Intermediary
-    SET name = intermediary_name,
-        email = intermediary_email,
-        phone = intermediary_phone,
-        monthly_fee = intermediary_monthly_fee,
-        address = intermediary_address
-    WHERE intermediary_id = intermediary_id;
-END //
-
-DELIMITER ;
-
-----------------------------------------------------------------
-
-DELIMITER //
-
-CREATE PROCEDURE GetAllIntermediaries()
+CREATE PROCEDURE SelectAllIntermediaries()
 BEGIN
     SELECT * FROM Intermediary;
 END //
-
 DELIMITER ;
 
-----------------------------------------------------------------
-
 DELIMITER //
-
-CREATE PROCEDURE GetIntermediaryById(
-    IN intermediary_id INT
+CREATE PROCEDURE InsertIntermediary(
+    IN inter_name VARCHAR(50), 
+    IN inter_email VARCHAR(50), 
+    IN inter_phone VARCHAR(15),
+    IN inter_address VARCHAR(100),
+    IN inter_state ENUM('enabled', 'disabled'),
+    IN inter_password VARCHAR(255)
 )
 BEGIN
-    SELECT * FROM Intermediary
-    WHERE intermediary_id = intermediary_id;
+    INSERT INTO Intermediary (name, email, phone, address, stateIntermediary, password)
+    VALUES (inter_name, inter_email, inter_phone, inter_address, inter_state, inter_password);
 END //
+DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE UpdateIntermediaryPhone(
+    IN inter_id INT UNSIGNED, 
+    IN new_phone VARCHAR(15)
+)
+BEGIN
+    UPDATE Intermediary SET phone = new_phone WHERE intermediary_id = inter_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE DeleteIntermediary(
+    IN inter_id INT UNSIGNED
+)
+BEGIN
+    DELETE FROM Intermediary WHERE intermediary_id = inter_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE CountIntermediaries()
+BEGIN
+    SELECT COUNT(*) AS total_intermediaries FROM Intermediary;
+END //
 DELIMITER ;

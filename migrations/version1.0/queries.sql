@@ -4,118 +4,71 @@
 
 SELECT * FROM Card;
 
-SELECT * FROM Card
-WHERE YEAR(expiration_date) = 2024;
+SELECT * FROM Card WHERE expiration_date > '2025-01-01';
 
-SELECT COUNT(*) FROM Card;
+UPDATE Card SET cvv = '999' WHERE card_number = '1234-5678-9012-3456';
 
-UPDATE Card
-SET cvv = '999'
-WHERE card_number = '1111222233334444';
+DELETE FROM Card WHERE card_number = '5678-9012-3456-7890';
 
-DELETE FROM Card
-WHERE card_number = '5555666677778888';
+SELECT COUNT(*) AS total_cards FROM Card;
 
 -- querys de la tabla vehicle_company
 
 SELECT * FROM Vehicle_Company;
 
-SELECT * FROM Vehicle_Company
-WHERE monthly_fee > 600;
+SELECT * FROM Vehicle_Company WHERE vehicle_count > 5;
 
-SELECT COUNT(*) FROM Vehicle_Company
-WHERE stateCompanyVehicle = 'enabled';
+UPDATE Vehicle_Company SET stateCompanyVehicle = 'disabled' WHERE nit = '800123456';
 
-UPDATE Vehicle_Company
-SET monthly_fee = 750.0
-WHERE nit = 'A123456789';
+DELETE FROM Vehicle_Company WHERE nit = '800567890';
 
-
-UPDATE Vehicle_Company
-SET monthly_fee = 750.0
-WHERE nit = 'A123456789';
-
-DELETE FROM Vehicle_Company
-WHERE nit = 'B234567890';
+SELECT SUM(monthly_fee) AS total_monthly_fee FROM Vehicle_Company;
 
 -- querys de la tabla Intermediary
 
 SELECT * FROM Intermediary;
 
-SELECT * FROM Intermediary
-WHERE monthly_fee < 60;
+SELECT * FROM Intermediary WHERE stateIntermediary = 'enabled';
 
-SELECT COUNT(*) FROM Intermediary
-WHERE stateIntermediary = 'enabled';
+UPDATE Intermediary SET phone = '555-9999' WHERE intermediary_id = 1;
 
-UPDATE Intermediary
-SET address = '777 New St'
-WHERE intermediary_id = 1;
+DELETE FROM Intermediary WHERE intermediary_id = 5;
 
-DELETE FROM Intermediary
-WHERE intermediary_id = 5;
+SELECT COUNT(*) AS total_intermediaries FROM Intermediary;
 
 -- querys de la tabla Transporter
 
 SELECT * FROM Transporter;
 
+SELECT * FROM Transporter WHERE statusTransporter = 'Active';
 
-SELECT * FROM Transporter
-WHERE statusTransporter = 'Active';
+UPDATE Transporter SET stateTransporter = 'disabled' WHERE transporter_id = 2;
 
+DELETE FROM Transporter WHERE transporter_id = 4;
 
-SELECT COUNT(*) FROM Transporter
-WHERE stateTransporter = 'enabled';
-
-
-UPDATE Transporter
-SET statusTransporter = 'Inactive'
-WHERE transporter_id = 3;
-
-
-DELETE FROM Transporter
-WHERE transporter_id = 4;
+SELECT stateTransporter, COUNT(*) AS total FROM Transporter GROUP BY stateTransporter;
 
 
 -- querys de la tabla Travel
 
 SELECT * FROM Travel;
 
+SELECT * FROM Travel WHERE weight > 500;
 
-SELECT * FROM Travel
-WHERE weight > 18000;
+UPDATE Travel SET description = 'Updated Description' WHERE trip_id = 3;
 
+DELETE FROM Travel WHERE trip_id = 2;
 
-SELECT COUNT(*) FROM Travel
-WHERE stateTravel = 'enabled';
-
-
-UPDATE Travel
-SET deliverDate = '2023-06-01'
-WHERE trip_id = 1;
-
-
-DELETE FROM Travel
-WHERE trip_id = 5;
-
+SELECT SUM(payment) AS total_payment FROM Travel;
 
 -- querys de la tabal vehicle
 
 SELECT * FROM Vehicle;
 
+SELECT * FROM Vehicle WHERE stateVehicle = 'enabled';
 
-SELECT * FROM Vehicle
-WHERE capacity > 20000;
+UPDATE Vehicle SET capacity = 20.0 WHERE license_plate = 'ABC123';
 
+DELETE FROM Vehicle WHERE license_plate = 'GHI789';
 
-SELECT COUNT(*) FROM Vehicle
-WHERE stateVehicle = 'enabled';
-
-
-UPDATE Vehicle
-SET description = 'New description'
-WHERE license_plate = 'JKL123';
-
-
-DELETE FROM Vehicle
-WHERE license_plate = 'MNO456';
+SELECT SUM(capacity) AS total_capacity FROM Vehicle;

@@ -1,3 +1,8 @@
+CREATE DATABASE Transkodiak;
+USE Transkodiak;
+
+drop database Transkodiak;
+
 -- Creacion de tablas
 -- Tabla Card
 CREATE TABLE Card (
@@ -16,8 +21,6 @@ CREATE TABLE Vehicle_Company (
     monthly_fee FLOAT,
     transporter_count INT,
     vehicle_count INT,
-    login_attempts INT DEFAULT 0,
-    locked_until DATETIME,
     stateCompanyVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
     password VARCHAR(255),
     fk_card_number VARCHAR(100) NOT NULL,
@@ -31,14 +34,9 @@ CREATE TABLE Intermediary (
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    monthly_fee FLOAT NOT NULL,
     address VARCHAR(100) NOT NULL,
-    login_attempts INT DEFAULT 0,
-    locked_until DATETIME,
     stateIntermediary ENUM ('enabled', 'disabled') DEFAULT 'enabled',
     password VARCHAR(255),
-    fk_card_number VARCHAR(100) NOT NULL,
-    FOREIGN KEY (fk_card_number) REFERENCES Card (card_number),
     INDEX idx_stateIntermediary (stateIntermediary)
 );
 
@@ -51,12 +49,10 @@ CREATE TABLE Transporter (
     phone VARCHAR(15),
     license VARCHAR(30) NOT NULL,
     statusTransporter ENUM ('Active', 'Inactive', 'In transit') DEFAULT 'Inactive',
-    fk_nit VARCHAR(30) NOT NULL,
-    FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
-    login_attempts INT DEFAULT 0,
-    locked_until DATETIME,
     stateTransporter ENUM ('enabled', 'disabled') DEFAULT 'enabled',
     password VARCHAR(255),
+    fk_nit VARCHAR(30) NOT NULL,
+    FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
     INDEX idx_statusTransporter (statusTransporter),
     INDEX idx_stateTransporter (stateTransporter)
 );

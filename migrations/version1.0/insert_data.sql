@@ -1,55 +1,69 @@
 -- INSERCION DATOS
 
 -- Insertar datos en la tabla Card
-INSERT INTO Card (card_number, expiration_date, cvv) VALUES 
-('1111222233334444', '2025-12-31', '111'),
-('2222333344445555', '2023-08-31', '222'),
-('3333444455556666', '2024-05-30', '333'),
-('4444555566667777', '2024-11-15', '444'),
-('5555666677778888', '2025-01-20', '555');
+INSERT INTO Card (card_number, expiration_date, cvv)
+VALUES 
+('1234-5678-9012-3456', '2025-08-15', '123'),
+('2345-6789-0123-4567', '2024-07-21', '234'),
+('3456-7890-1234-5678', '2026-06-30', '345'),
+('4567-8901-2345-6789', '2023-05-19', '456'),
+('5678-9012-3456-7890', '2027-04-22', '567');
+
 
 select * from Card;
 
 -- Insertar datos en la tabla Vehicle_Company
-INSERT INTO Vehicle_Company (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count, login_attempts, locked_until, stateCompanyVehicle, password, fk_card_number) VALUES
-('A123456789', 'Heavy Transport Inc.', '555-1234', 'contact@heavytransport.com', '123 Heavy St', 500.0, 15, 20, 0, NULL, 'enabled', 'password1', '1111222233334444'),
-('B234567890', 'Load Masters LLC', '555-5678', 'support@loadmasters.com', '456 Load Rd', 600.0, 20, 25, 0, NULL, 'enabled', 'password2', '2222333344445555'),
-('C345678901', 'Cargo Express', '555-9999', 'info@cargoexpress.com', '789 Express Blvd', 550.0, 18, 22, 0, NULL, 'enabled', 'password3', '3333444455556666'),
-('D456789012', 'Freight Movers', '555-8888', 'service@freightmovers.com', '321 Freight Ln', 650.0, 22, 28, 0, NULL, 'enabled', 'password4', '4444555566667777'),
-('E567890123', 'Bulk Carriers', '555-7777', 'hello@bulkcarriers.com', '654 Bulk Ave', 700.0, 25, 30, 0, NULL, 'enabled', 'password5', '5555666677778888');
-select * from Vehicle_Company;
+INSERT INTO Vehicle_Company (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count, stateCompanyVehicle, password, fk_card_number)
+VALUES 
+('800123456', 'Company A', '555-0100', 'contact@companya.com', '123 Main St', 1500.00, 10, 5, 'enabled', 'passwordA', '1234-5678-9012-3456'),
+('800234567', 'Company B', '555-0200', 'contact@companyb.com', '456 Oak St', 1300.00, 8, 4, 'enabled', 'passwordB', '2345-6789-0123-4567'),
+('800345678', 'Company C', '555-0300', 'contact@companyc.com', '789 Pine St', 1700.00, 12, 6, 'disabled', 'passwordC', '3456-7890-1234-5678'),
+('800456789', 'Company D', '555-0400', 'contact@companyd.com', '101 Maple St', 1100.00, 6, 3, 'enabled', 'passwordD', '4567-8901-2345-6789'),
+('800567890', 'Company E', '555-0500', 'contact@companye.com', '202 Elm St', 1400.00, 9, 4, 'disabled', 'passwordE', '5678-9012-3456-7890');
+
 
 -- Insertar datos en la tabla Intermediary
-INSERT INTO Intermediary (name, email, phone, monthly_fee, address, login_attempts, locked_until, stateIntermediary, password, fk_card_number) VALUES
-('Intermediary X', 'x@intermediary.com', '555-4321', 50.0, '111 Pine St', 0, NULL, 'enabled', 'passwordX', '1111222233334444'),
-('Intermediary Y', 'y@intermediary.com', '555-8765', 60.0, '222 Cedar St', 0, NULL, 'enabled', 'passwordY', '2222333344445555'),
-('Intermediary Z', 'z@intermediary.com', '555-0000', 55.0, '333 Birch St', 0, NULL, 'enabled', 'passwordZ', '3333444455556666'),
-('Intermediary A', 'a@intermediary.com', '555-1111', 65.0, '444 Maple St', 0, NULL, 'enabled', 'passwordA', '4444555566667777'),
-('Intermediary B', 'b@intermediary.com', '555-2222', 70.0, '555 Oak St', 0, NULL, 'enabled', 'passwordB', '5555666677778888');
+INSERT INTO Intermediary (name, email, phone, address, stateIntermediary, password)
+VALUES 
+('Intermediary A', 'intera@mail.com', '555-1100', '111 North St', 'enabled', 'passwordIA'),
+('Intermediary B', 'interb@mail.com', '555-1200', '222 South St', 'disabled', 'passwordIB'),
+('Intermediary C', 'interc@mail.com', '555-1300', '333 East St', 'enabled', 'passwordIC'),
+('Intermediary D', 'interd@mail.com', '555-1400', '444 West St', 'enabled', 'passwordID'),
+('Intermediary E', 'intere@mail.com', '555-1500', '555 Central St', 'disabled', 'passwordIE');
+
 select * from Intermediary;
 
 -- Insertar datos en la tabla Transporter
-INSERT INTO Transporter (name, id_number, email, phone, license, statusTransporter, fk_nit, login_attempts, locked_until, stateTransporter, password) VALUES
-('Transporter 1', 'T111122223', 'transporter1@logistics.com', '555-6789', 'LIC111', 'Active', 'A123456789', 0, NULL, 'enabled', 'passwordT1'),
-('Transporter 2', 'T222233334', 'transporter2@logistics.com', '555-4321', 'LIC222', 'Inactive', 'B234567890', 0, NULL, 'enabled', 'passwordT2'),
-('Transporter 3', 'T333344445', 'transporter3@logistics.com', '555-1111', 'LIC333', 'In transit', 'C345678901', 0, NULL, 'enabled', 'passwordT3'),
-('Transporter 4', 'T444455556', 'transporter4@logistics.com', '555-8888', 'LIC444', 'Active', 'D456789012', 0, NULL, 'enabled', 'passwordT4'),
-('Transporter 5', 'T555566667', 'transporter5@logistics.com', '555-7777', 'LIC555', 'Inactive', 'E567890123', 0, NULL, 'enabled', 'passwordT5');
+INSERT INTO Transporter (name, id_number, email, phone, license, statusTransporter, stateTransporter, password, fk_nit)
+VALUES 
+('Transporter A', '123456789', 'transa@mail.com', '555-2100', 'A123456', 'Active', 'enabled', 'passwordTA', '800123456'),
+('Transporter B', '234567890', 'transb@mail.com', '555-2200', 'B234567', 'Inactive', 'disabled', 'passwordTB', '800234567'),
+('Transporter C', '345678901', 'transc@mail.com', '555-2300', 'C345678', 'In transit', 'enabled', 'passwordTC', '800345678'),
+('Transporter D', '456789012', 'transd@mail.com', '555-2400', 'D456789', 'Inactive', 'enabled', 'passwordTD', '800456789'),
+('Transporter E', '567890123', 'transe@mail.com', '555-2500', 'E567890', 'Active', 'disabled', 'passwordTE', '800567890');
+
+
 select * from Transporter;
+
 -- Insertar datos en la tabla Travel
-INSERT INTO Travel (weight, origin, destination, payment, description, departureDate, deliverDate, stateTravel, fk_transporter_id, fk_intermediary_id) VALUES
-(15000, 'Warehouse A', 'Port B', 2000.0, 'Heavy machinery', '2023-01-01', '2023-01-02', 'enabled', 1, 1),
-(20000, 'Factory C', 'Distribution D', 2500.0, 'Construction materials', '2023-02-01', '2023-02-03', 'enabled', 2, 2),
-(18000, 'Depot E', 'Site F', 2200.0, 'Steel rods', '2023-03-01', '2023-03-04', 'enabled', 3, 3),
-(17000, 'Warehouse G', 'Port H', 2100.0, 'Electronic equipment', '2023-04-01', '2023-04-03', 'enabled', 4, 4),
-(19000, 'Factory I', 'Warehouse J', 2300.0, 'Automotive parts', '2023-05-01', '2023-05-02', 'enabled', 5, 5);
+INSERT INTO Travel (weight, origin, destination, payment, description, departureDate, deliverDate, stateTravel, fk_transporter_id, fk_intermediary_id)
+VALUES 
+(500, 'City A', 'City B', 1500.00, 'Electronics', '2024-07-01', '2024-07-02', 'enabled', 1, 1),
+(300, 'City B', 'City C', 1000.00, 'Furniture', '2024-08-15', '2024-08-16', 'enabled', 2, 2),
+(700, 'City C', 'City D', 2000.00, 'Food', '2024-09-10', '2024-09-12', 'disabled', 3, 3),
+(600, 'City D', 'City E', 1800.00, 'Clothing', '2024-10-05', '2024-10-06', 'enabled', 4, 4),
+(400, 'City E', 'City F', 1200.00, 'Machinery', '2024-11-20', '2024-11-21', 'enabled', 5, 5);
+
+
 select * from Travel;
 
 -- Insertar datos en la tabla Vehicle
-INSERT INTO Vehicle (license_plate, description, capacity, vehicle_type, load_type, stateVehicle, fk_vehicle_company_id) VALUES
-('JKL123', '18-Wheeler', 30000.0, 'Truck', 'Heavy', 'enabled', 'A123456789'),
-('MNO456', 'Flatbed', 25000.0, 'Truck', 'Oversized', 'enabled', 'B234567890'),
-('PQR789', 'Tanker', 20000.0, 'Truck', 'Liquid', 'enabled', 'C345678901'),
-('STU012', 'Box Truck', 15000.0, 'Truck', 'General', 'enabled', 'D456789012'),
-('VWX345', 'Refrigerated', 18000.0, 'Truck', 'Perishable', 'enabled', 'E567890123');
+INSERT INTO Vehicle (license_plate, description, capacity, vehicle_type, load_type, stateVehicle, fk_vehicle_company_id)
+VALUES 
+('ABC123', 'Truck A', 10.0, 'Truck', 'General', 'enabled', '800123456'),
+('DEF456', 'Truck B', 15.0, 'Truck', 'Refrigerated', 'enabled', '800234567'),
+('GHI789', 'Van A', 8.0, 'Van', 'General', 'disabled', '800345678'),
+('JKL012', 'Van B', 9.0, 'Van', 'Hazardous', 'enabled', '800456789'),
+('MNO345', 'Truck C', 12.0, 'Truck', 'General', 'enabled', '800567890');
+
 select *from Vehicle;

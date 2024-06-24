@@ -1,130 +1,54 @@
-DELIMITER //
-
-CREATE PROCEDURE InsertVehicleCompany(
-    IN nit VARCHAR(30),
-    IN name VARCHAR(50),
-    IN phone VARCHAR(15),
-    IN email VARCHAR(50),
-    IN address VARCHAR(100),
-    IN monthly_fee FLOAT,
-    IN transporter_count INT,
-    IN vehicle_count INT
-)
-BEGIN
-    INSERT INTO Vehicle_Company (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count)
-    VALUES (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count);
-END //
-
-DELIMITER ;
-
----------------------------------------------------------------
+-- Procedimientos almacenados de la tabla vehicle_company
 
 DELIMITER //
-
-CREATE PROCEDURE UpdateVehicleCompany(
-    IN company_nit VARCHAR(30),
-    IN company_name VARCHAR(50),
-    IN company_phone VARCHAR(15),
-    IN company_email VARCHAR(50),
-    IN company_address VARCHAR(100),
-    IN company_monthly_fee FLOAT,
-    IN company_transporter_count INT,
-    IN company_vehicle_count INT
-)
-BEGIN
-    UPDATE Vehicle_Company
-    SET name = company_name,
-        phone = company_phone,
-        email = company_email,
-        address = company_address,
-        monthly_fee = company_monthly_fee,
-        transporter_count = company_transporter_count,
-        vehicle_count = company_vehicle_count
-    WHERE nit = company_nit;
-END //
-
-DELIMITER ;
-----------------------------------------------------------------
-
-DELIMITER //
-
-CREATE PROCEDURE GetAllVehicleCompanies()
+CREATE PROCEDURE SelectAllVehicleCompanies()
 BEGIN
     SELECT * FROM Vehicle_Company;
 END //
-
 DELIMITER ;
 
-----------------------------------------------------------------
+DELIMITER //
+CREATE PROCEDURE InsertVehicleCompany(
+    IN company_nit VARCHAR(30), 
+    IN company_name VARCHAR(50), 
+    IN company_phone VARCHAR(15),
+    IN company_email VARCHAR(50),
+    IN company_address VARCHAR(100),
+    IN monthly_fee FLOAT,
+    IN transporter_count INT,
+    IN vehicle_count INT,
+    IN stateCompanyVehicle ENUM('enabled', 'disabled'),
+    IN company_password VARCHAR(255),
+    IN card_num VARCHAR(100)
+)
+BEGIN
+    INSERT INTO Vehicle_Company (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count, stateCompanyVehicle, password, fk_card_number)
+    VALUES (company_nit, company_name, company_phone, company_email, company_address, monthly_fee, transporter_count, vehicle_count, stateCompanyVehicle, company_password, card_num);
+END //
+DELIMITER ;
 
 DELIMITER //
+CREATE PROCEDURE UpdateVehicleCompanyState(
+    IN company_nit VARCHAR(30), 
+    IN new_state ENUM('enabled', 'disabled')
+)
+BEGIN
+    UPDATE Vehicle_Company SET stateCompanyVehicle = new_state WHERE nit = company_nit;
+END //
+DELIMITER ;
 
-CREATE PROCEDURE GetVehicleCompanyById(
+DELIMITER //
+CREATE PROCEDURE DeleteVehicleCompany(
     IN company_nit VARCHAR(30)
 )
 BEGIN
-    SELECT * FROM Vehicle_Company
-    WHERE nit = company_nit;
+    DELETE FROM Vehicle_Company WHERE nit = company_nit;
 END //
-
 DELIMITER ;
-
-----------------------------------------------------------------
 
 DELIMITER //
-
-CREATE PROCEDURE UpdateCompanyState(
-    IN company_nit VARCHAR(30),
-    IN new_state ENUM ('enabled', 'disabled')
-)
+CREATE PROCEDURE SumMonthlyFees()
 BEGIN
-    UPDATE Vehicle_Company
-    SET stateCompanyVehicle = new_state
-    WHERE nit = company_nit;
-END //
-
-DELIMITER ;
-
-----------------------------------------------------------------
-
-DELIMITER //
-CREATE PROCEDURE ResetLoginAttempts(
-    IN p_nit VARCHAR(30)
-)
-BEGIN
-    UPDATE Vehicle_Company SET login_attempts = 0 WHERE nit = p_nit;
+    SELECT SUM(monthly_fee) AS total_monthly_fee FROM Vehicle_Company;
 END //
 DELIMITER ;
-
-----------------------------------------------------------------
-
-DELIMITER //
-CREATE PROCEDURE LockAccount(
-    IN p_nit VARCHAR(30)
-)
-BEGIN
-    DECLARE max_attempts INT DEFAULT 5; 
-    DECLARE current_attempts INT;
-    DECLARE lock_duration INT DEFAULT 5;
-    
-    SELECT login_attempts INTO current_attempts FROM Vehicle_Company WHERE nit = p_nit;
-    
-    IF current_attempts + 1 >= max_attempts THEN
-        UPDATE Vehicle_Company SET locked_until = DATE_ADD(NOW(), INTERVAL lock_duration MINUTE) WHERE nit = p_nit;
-    ELSE
-        UPDATE Vehicle_Company SET login_attempts = current_attempts + 1 WHERE nit = p_nit;
-    END IF;
-END //
-DELIMITER ;
-
-----------------------------------------------------------------
-
-DELIMITER //
-CREATE PROCEDURE UnlockAccount(
-    IN p_nit VARCHAR(30)
-)
-BEGIN
-    UPDATE Vehicle_Company SET login_attempts = 0, locked_until = NULL WHERE nit = p_nit;
-END //
-DELIMITER ;
-

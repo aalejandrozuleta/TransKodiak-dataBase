@@ -1,63 +1,50 @@
--- Registrar Vehiculo
+-- Procedimientos almacenados de la tabla vehicle
+
 DELIMITER //
-CREATE PROCEDURE RegistrarVehiculo(
-    IN p_license_plate VARCHAR(10),
-    IN p_description VARCHAR(255),
-    IN p_capacity FLOAT,
-    IN p_vehicle_type VARCHAR(50),
-    IN p_load_type VARCHAR(50),
-)
+CREATE PROCEDURE SelectAllVehicles()
 BEGIN
-    INSERT INTO Vehicle (license_plate, description, capacity, vehicle_type, load_type, stateVehicle)
-    VALUES (p_license_plate, p_description, p_capacity, p_vehicle_type, p_load_type, 'enabled');
+    SELECT * FROM Vehicle;
 END //
 DELIMITER ;
 
-
--- Consultar Vehiculo
-
 DELIMITER //
-CREATE PROCEDURE ConsultarVehiculo(
-    IN p_license_plate VARCHAR(10)
+CREATE PROCEDURE InsertVehicle(
+    IN vehicle_plate VARCHAR(10), 
+    IN vehicle_description VARCHAR(255), 
+    IN vehicle_capacity FLOAT,
+    IN vehicle_type VARCHAR(50),
+    IN load_type VARCHAR(50),
+    IN vehicle_state ENUM('enabled', 'disabled'),
+    IN company_nit VARCHAR(30)
 )
 BEGIN
-    SELECT * FROM Vehicle WHERE license_plate = p_license_plate;
-
+    INSERT INTO Vehicle (license_plate, description, capacity, vehicle_type, load_type, stateVehicle, fk_vehicle_company_id)
+    VALUES (vehicle_plate, vehicle_description, vehicle_capacity, vehicle_type, load_type, vehicle_state, company_nit);
 END //
 DELIMITER ;
 
-
--- Actualizar Vehiculo 
-
 DELIMITER //
-
-CREATE PROCEDURE ActualizarVehiculo(
-    IN p_license_plate VARCHAR(10),
-    IN p_description VARCHAR(255),
-    IN p_capacity FLOAT,
-    IN p_vehicle_type VARCHAR(50),
-    IN p_load_type VARCHAR(50)
+CREATE PROCEDURE UpdateVehicleCapacity(
+    IN vehicle_plate VARCHAR(10), 
+    IN new_capacity FLOAT
 )
 BEGIN
-    UPDATE Vehicle 
-    SET description = p_description, capacity = p_capacity, vehicle_type = p_vehicle_type, load_type = p_load_type
-    WHERE license_plate = p_license_plate;
-END//
+    UPDATE Vehicle SET capacity = new_capacity WHERE license_plate = vehicle_plate;
+END //
 DELIMITER ;
-
-
--- Deshabilitar Vehiculo
 
 DELIMITER //
-CREATE PROCEDURE DeshabilitarVehiculo(
-    IN p_license_plate VARCHAR(10)
+CREATE PROCEDURE DeleteVehicle(
+    IN vehicle_plate VARCHAR(10)
 )
 BEGIN
-    UPDATE Vehicle 
-    SET stateVehicle = 'disabled'
-    WHERE license_plate = p_license_plate;
-END//
-
+    DELETE FROM Vehicle WHERE license_plate = vehicle_plate;
+END //
 DELIMITER ;
 
-
+DELIMITER //
+CREATE PROCEDURE SumVehicleCapacity()
+BEGIN
+    SELECT SUM(capacity) AS total_capacity FROM Vehicle;
+END //
+DELIMITER ;

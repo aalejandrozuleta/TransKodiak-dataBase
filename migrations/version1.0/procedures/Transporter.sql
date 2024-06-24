@@ -5,7 +5,58 @@ DELIMITER //
 CREATE PROCEDURE InsertTransporter(
     IN p_name VARCHAR(50),
     IN p_id_number VARCHAR(20),
-    IN p_email VARCHAR(50),
+    IN p_email VARCHAR(50),-- Procedimientos almacenados de la tabla transporter
+
+DELIMITER //
+CREATE PROCEDURE SelectAllTransporters()
+BEGIN
+    SELECT * FROM Transporter;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE InsertTransporter(
+    IN trans_name VARCHAR(50), 
+    IN trans_id_number VARCHAR(20), 
+    IN trans_email VARCHAR(50),
+    IN trans_phone VARCHAR(15),
+    IN trans_license VARCHAR(30),
+    IN trans_status ENUM('Active', 'Inactive', 'In transit'),
+    IN trans_state ENUM('enabled', 'disabled'),
+    IN trans_password VARCHAR(255),
+    IN company_nit VARCHAR(30)
+)
+BEGIN
+    INSERT INTO Transporter (name, id_number, email, phone, license, statusTransporter, stateTransporter, password, fk_nit)
+    VALUES (trans_name, trans_id_number, trans_email, trans_phone, trans_license, trans_status, trans_state, trans_password, company_nit);
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE UpdateTransporterState(
+    IN trans_id INT UNSIGNED, 
+    IN new_state ENUM('enabled', 'disabled')
+)
+BEGIN
+    UPDATE Transporter SET stateTransporter = new_state WHERE transporter_id = trans_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE DeleteTransporter(
+    IN trans_id INT UNSIGNED
+)
+BEGIN
+    DELETE FROM Transporter WHERE transporter_id = trans_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE CountTransportersByState()
+BEGIN
+    SELECT stateTransporter, COUNT(*) AS total FROM Transporter GROUP BY stateTransporter;
+END //
+DELIMITER ;
     IN p_phone VARCHAR(15),
     IN p_license VARCHAR(30),
     IN p_password VARCHAR(255),

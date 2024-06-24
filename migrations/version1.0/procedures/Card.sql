@@ -1,45 +1,46 @@
-DELIMITER //
+-- procedimientos almacendados de la tabla card
 
-CREATE PROCEDURE createCard(
-    IN card_number_in VARCHAR(100),
-    IN expiration_date_in DATE,
-    IN cvv_in VARCHAR(100)
+DELIMITER //
+CREATE PROCEDURE SelectAllCards()
+BEGIN
+    SELECT * FROM Card;
+END //
+DELIMITER ;
+--
+DELIMITER //
+CREATE PROCEDURE InsertCard(
+    IN card_num VARCHAR(100), 
+    IN exp_date DATE, 
+    IN cvv_code VARCHAR(100)
 )
 BEGIN
-    -- Insertar una nueva tarjeta
     INSERT INTO Card (card_number, expiration_date, cvv)
-    VALUES (card_number_in, expiration_date_in, cvv_in);
-END//
-
+    VALUES (card_num, exp_date, cvv_code);
+END //
 DELIMITER ;
--- 
+--
 DELIMITER //
-
-CREATE PROCEDURE updateCard(
-    IN card_number_in VARCHAR(100),
-    IN expiration_date_in DATE,
-    IN cvv_in VARCHAR(100)
+CREATE PROCEDURE UpdateCardCVV(
+    IN card_num VARCHAR(100), 
+    IN new_cvv VARCHAR(100)
 )
 BEGIN
-    -- Actualizar los detalles de una tarjeta existente
-    UPDATE Card
-    SET expiration_date = expiration_date_in, cvv = cvv_in
-    WHERE card_number = card_number_in;
+    UPDATE Card SET cvv = new_cvv WHERE card_number = card_num;
 END //
-
 DELIMITER ;
--- 
+--
 DELIMITER //
-
-CREATE PROCEDURE deleteCard(
-    IN card_number_in VARCHAR(100)
+CREATE PROCEDURE DeleteCard(
+    IN card_num VARCHAR(100)
 )
 BEGIN
-    -- Eliminar una tarjeta
-    DELETE FROM Card
-    WHERE card_number = card_number_in;
+    DELETE FROM Card WHERE card_number = card_num;
 END //
-
 DELIMITER ;
-
-
+--
+DELIMITER //
+CREATE PROCEDURE CountCards()
+BEGIN
+    SELECT COUNT(*) AS total_cards FROM Card;
+END //
+DELIMITER ;
