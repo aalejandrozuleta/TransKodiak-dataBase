@@ -14,16 +14,11 @@ CREATE PROCEDURE InsertVehicleCompany(
     IN company_phone VARCHAR(15),
     IN company_email VARCHAR(50),
     IN company_address VARCHAR(100),
-    IN monthly_fee FLOAT,
-    IN transporter_count INT,
-    IN vehicle_count INT,
-    IN stateCompanyVehicle ENUM('enabled', 'disabled'),
     IN company_password VARCHAR(255),
-    IN card_num VARCHAR(100)
 )
 BEGIN
-    INSERT INTO Vehicle_Company (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count, stateCompanyVehicle, password, fk_card_number)
-    VALUES (company_nit, company_name, company_phone, company_email, company_address, monthly_fee, transporter_count, vehicle_count, stateCompanyVehicle, company_password, card_num);
+    INSERT INTO Vehicle_Company (nit, name, phone, email, address, password)
+    VALUES (company_nit, company_name, company_phone, company_email, company_address, company_password);
 END //
 DELIMITER ;
 
