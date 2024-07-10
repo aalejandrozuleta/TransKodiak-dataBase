@@ -11,22 +11,21 @@ create table
     );
 
 -- Tabla Vehicle_Company
-create table
-    Vehicle_Company (
-        nit varchar(30) primary key not null,
-        name varchar(50) not null,
-        phone varchar(15),
-        email varchar(50) unique,
-        address varchar(100),
-        monthly_fee float,
-        transporter_count int,
-        vehicle_count int,
-        login_attempts int default 0,
-        locked_until datetime,
-        stateCompanyVehicle ENUM ('enabled', 'disabled') default 'enabled' index,
-        fk_card_number varchar(100) not null,
-        foreign key (fk_card_number) references Card (card_number)
-    );
+CREATE TABLE Vehicle_Company (
+    nit VARCHAR(30) PRIMARY KEY NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    phone VARCHAR(15),
+    email VARCHAR(50) UNIQUE,
+    address VARCHAR(100),
+    monthly_fee FLOAT,
+    transporter_count INT,
+    vehicle_count INT,
+    stateCompanyVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    password VARCHAR(255),
+    fk_card_number VARCHAR(100),
+    FOREIGN KEY (fk_card_number) REFERENCES Card (card_number),
+    INDEX idx_stateCompanyVehicle (stateCompanyVehicle)
+);
 
 -- Tabla Intermediary
 create table

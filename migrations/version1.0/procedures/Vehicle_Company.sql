@@ -1,21 +1,29 @@
 DELIMITER //
-
 CREATE PROCEDURE InsertVehicleCompany(
-    IN nit VARCHAR(30),
-    IN name VARCHAR(50),
-    IN phone VARCHAR(15),
-    IN email VARCHAR(50),
-    IN address VARCHAR(100),
-    IN monthly_fee FLOAT,
-    IN transporter_count INT,
-    IN vehicle_count INT
+    IN company_nit VARCHAR(30), 
+    IN company_name VARCHAR(50), 
+    IN company_phone VARCHAR(15),
+    IN company_email VARCHAR(50),
+    IN company_address VARCHAR(100),
+    IN company_password VARCHAR(255)
 )
 BEGIN
-    INSERT INTO Vehicle_Company (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count)
-    VALUES (nit, name, phone, email, address, monthly_fee, transporter_count, vehicle_count);
+    INSERT INTO Vehicle_Company (nit, name, phone, email, address, password)
+    VALUES (company_nit, company_name, company_phone, company_email, company_address, company_password);
 END //
-
 DELIMITER ;
+
+-- Procedimiento para encontrar si ya esta registrado por medio del nombre
+
+DELIMITER //
+CREATE PROCEDURE SearchCompanyByName(
+	IN name varchar(50)
+) BEGIN 
+	SELECT nit,name FROM Vehicle_Company WHERE name = name;
+END //
+DELIMITER ;
+
+---- !Funcionando
 
 ---------------------------------------------------------------
 
