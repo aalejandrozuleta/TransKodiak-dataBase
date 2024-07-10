@@ -17,9 +17,9 @@ DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE SearchCompanyByName(
-	IN name varchar(50)
+	IN names varchar(50)
 ) BEGIN 
-	SELECT nit,name FROM Vehicle_Company WHERE name = name;
+	SELECT nit,name FROM Vehicle_Company WHERE name = names;
 END //
 DELIMITER ;
 

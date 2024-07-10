@@ -7,7 +7,7 @@ create table
     Card (
         card_number varchar(100) not null primary key,
         expiration_date date not null,
-        cvv varchar(100) not null,
+        cvv varchar(100) not null
     );
 
 -- Tabla Vehicle_Company
