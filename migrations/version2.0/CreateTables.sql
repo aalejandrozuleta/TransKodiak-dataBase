@@ -47,7 +47,8 @@ create table
         phone varchar(15) not null unique,
         monthly_fee float not null,
         address varchar(100) not null,
-        stateIntermediary ENUM ('enabled', 'disabled') default 'enabled' index,
+        stateIntermediary ENUM ('enabled', 'disabled') default 'enabled',
         fk_card_number varchar(100),
-        foreign key (fk_card_number) references Card (card_number)
+        foreign key (fk_card_number) references Card (card_number),
+        INDEX idx_stateIntermediary (stateIntermediary)
     );
