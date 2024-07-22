@@ -32,14 +32,12 @@ create table
     Intermediary (
         intermediary_id int primary key auto_increment not null,
         name varchar(50) not null,
-        email varchar(50) not null,
-        phone varchar(15) not,
+        email varchar(50) not null unique,
+        phone varchar(15) not unique,
         monthly_fee float not null,
         address varchar(100) not null,
-        login_attempts int default 0,
-        locked_until datetime,
         stateIntermediary ENUM ('enabled', 'disabled') default 'enabled' index,
-        fk_card_number varchar(100) not null,
+        fk_card_number varchar(100),
         foreign key (fk_card_number) references Card (card_number)
     );
 
