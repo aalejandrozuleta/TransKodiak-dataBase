@@ -30,7 +30,7 @@ CREATE TABLE
         email VARCHAR(50) UNIQUE,
         phone VARCHAR(15),
         license VARCHAR(30) NOT NULL,
-        statusTransporter ENUM ('Active', 'Inactive', 'In transit') DEFAULT 'Inactive',
+        statusTransporter ENUM ('Active', 'Inactive', 'In transit') DEFAULT 'Active',
         stateTransporter ENUM ('enabled', 'disabled') DEFAULT 'enabled',
         password VARCHAR(255),
         fk_nit VARCHAR(30) NOT NULL,
