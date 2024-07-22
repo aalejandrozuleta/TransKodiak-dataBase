@@ -22,6 +22,20 @@ CREATE TABLE
         INDEX idx_stateCompanyVehicle (stateCompanyVehicle)
     );
 
+create table
+    Intermediary (
+        intermediary_id int primary key auto_increment not null,
+        name varchar(50) not null unique,
+        email varchar(50) not null unique,
+        phone varchar(15) not null unique,
+        monthly_fee float not null,
+        address varchar(100) not null,
+        stateIntermediary ENUM ('enabled', 'disabled') default 'enabled',
+        fk_card_number varchar(100),
+        foreign key (fk_card_number) references Card (card_number),
+        INDEX idx_stateIntermediary (stateIntermediary)
+    );
+
 CREATE TABLE
     Transporter (
         transporter_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -37,18 +51,4 @@ CREATE TABLE
         FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
         INDEX idx_statusTransporter (statusTransporter),
         INDEX idx_stateTransporter (stateTransporter)
-    );
-
-create table
-    Intermediary (
-        intermediary_id int primary key auto_increment not null,
-        name varchar(50) not null,
-        email varchar(50) not null unique,
-        phone varchar(15) not null unique,
-        monthly_fee float not null,
-        address varchar(100) not null,
-        stateIntermediary ENUM ('enabled', 'disabled') default 'enabled',
-        fk_card_number varchar(100),
-        foreign key (fk_card_number) references Card (card_number),
-        INDEX idx_stateIntermediary (stateIntermediary)
     );
