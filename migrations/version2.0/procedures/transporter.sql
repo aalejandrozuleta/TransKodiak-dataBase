@@ -1,3 +1,5 @@
+-- procesos transporter
+
 DELIMITER //
 
 CREATE PROCEDURE InsertTransporter(
@@ -10,21 +12,13 @@ CREATE PROCEDURE InsertTransporter(
     IN trans_nit VARCHAR(20)  -- Reference to NIT of the Intermediary
 )
 BEGIN
-    INSERT INTO Transporter (name, id_number, email, phone, license, password, fk_nit)
+    INSERT INTO Transporter (name, identification_card, email, phone, license, password, fk_nit)
     VALUES (trans_name, trans_id_number, trans_email, trans_phone, trans_license, trans_password, trans_nit);
 END //
 
 DELIMITER ;
 
-DELIMITER //
-
-CREATE PROCEDURE SearchTransporterByIdentificationCard(
-    IN identification VARCHAR(50)
-)BEGIN 
-    SELECT transporter_id, name, identification_card FROM Transporter WHERE identification_card = identification;
-END //
-
-DELIMITER ;
+-- --------
 
 DELIMITER //
 
@@ -38,6 +32,8 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- -------- 
 
 DELIMITER //
 
