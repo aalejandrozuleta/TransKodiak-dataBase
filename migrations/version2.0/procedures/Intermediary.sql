@@ -14,6 +14,16 @@ DELIMITER ;
 
 DELIMITER //
 
+CREATE PROCEDURE searchCompanyByName(
+	IN names varchar(50)
+) BEGIN 
+	SELECT nit, name FROM Vehicle_Company WHERE name= names;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
 CREATE PROCEDURE SearchIntermediaryByName(
     IN nameInter VARCHAR(50)
 )BEGIN 
