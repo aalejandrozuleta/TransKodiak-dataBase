@@ -51,3 +51,15 @@ BEGIN
 END //
 
 DELIMITER ;
+
+---- 
+
+DELIMITER //
+
+CREATE PROCEDURE SearchTransporterByIdentificationCard(
+    IN identification VARCHAR(50)
+)BEGIN 
+    SELECT transporter_id, name, identification_card FROM Transporter WHERE identification_card = identification;
+END //
+
+DELIMITER ;
