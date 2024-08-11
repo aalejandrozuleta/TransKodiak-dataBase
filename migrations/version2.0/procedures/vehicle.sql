@@ -1,27 +1,68 @@
+-- procesos vehiculo
+-- traer vehiculos
+
 DELIMITER //
 
-CREATE PROCEDURE InsertVehicleCompany(
-    IN company_nit VARCHAR(30), 
-    IN company_name VARCHAR(50), 
-    IN company_phone VARCHAR(15),
-    IN company_email VARCHAR(50),
-    IN company_address VARCHAR(100),
-    IN company_password VARCHAR(255)
+create procedure getVehicles()
+begin 
+	select 
+		license_plate as id,
+		capacity,
+		vehicle_type,
+		load_type,
+		model,
+		brand
+	from
+		Vehicle
+	where 
+		stateVehicle = 'enable';
+end//
+
+DELIMITER //
+
+drop procedure getVehicles;
+
+-- insertar vehiculos
+
+DELIMITER //
+
+CREATE PROCEDURE InsertVehicle (
+    IN veh_license_plate VARCHAR(10),
+    IN veh_capacity VARCHAR(30),
+    IN veh_vehicle_type VARCHAR(50),
+    IN veh_load_type VARCHAR(50),
+    IN veh_model VARCHAR(30),
+    IN veh_brand VARCHAR(30),
+    IN veh_nit VARCHAR(30)
 )
 BEGIN
-    INSERT INTO Vehicle_Company (nit, name, phone, email, address, password)
-    VALUES (company_nit, company_name, company_phone, company_email, company_address, company_password);
+    INSERT INTO Vehicle (
+        license_plate,
+        capacity,
+        vehicle_type,
+        load_type,
+        model,
+        brand,
+        fk_nit
+    ) VALUES (
+        veh_license_plate,
+        veh_capacity,
+        veh_vehicle_type,
+        veh_load_type,
+        veh_model,
+        veh_brand,
+        veh_nit
+    );
 END //
 
 DELIMITER ;
 
 DELIMITER //
 
-create procedure searchCompanyByName(
-	in names varchar(50)
-) begin 
-	select nit, name from vehicle_Company where name= names;
-end
+CREATE PROCEDURE SearchVehicleByPlate(
+    IN PlateVehicle VARCHAR(50)
+)BEGIN 
+    SELECT license_plate FROM Vehicle WHERE license_plate = PlateVehicle;
+END //
 
 DELIMITER ;
-

@@ -53,3 +53,17 @@ CREATE TABLE
         INDEX idx_statusTransporter (statusTransporter),
         INDEX idx_stateTransporter (stateTransporter)
     );
+
+    CREATE TABLE Vehicle (
+    license_plate varchar(10),
+    capacity varchar(30)NOT NULL,
+    vehicle_type varchar(50) NOT NULL,
+    load_type varchar(50) NOT NULL,
+    stateVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    model varchar(30),
+    brand varchar(30),
+    primary key (license_plate),
+    fk_nit VARCHAR(30) NOT NULL,
+    FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
+    INDEX idx_stateVehicle (stateVehicle)
+);
