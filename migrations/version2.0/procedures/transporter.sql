@@ -37,7 +37,11 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE getTransporters()
+DELIMITER //
+
+CREATE PROCEDURE getTransporters(
+    IN idCompany VARCHAR(30)
+)
 BEGIN
     SELECT 
         transporter_id AS id,
@@ -47,10 +51,11 @@ BEGIN
     FROM 
         Transporter 
     WHERE 
-        stateTransporter = 'enabled';
+        fk_nit = idCompany AND stateTransporter = 'enabled';
 END //
 
 DELIMITER ;
+
 
 ---- 
 
