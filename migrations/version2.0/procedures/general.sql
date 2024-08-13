@@ -4,12 +4,15 @@ CREATE PROCEDURE `authGeneral` (
     IN p_email VARCHAR(50)
 )
 BEGIN
-    SELECT id, password FROM (
-        SELECT nit AS id, password FROM Vehicle_Company WHERE email = p_email
+    SELECT id, password, user_type FROM (
+        SELECT nit AS id, password, 'Vehicle_Company' AS user_type 
+        FROM Vehicle_Company WHERE email = p_email
         UNION ALL
-        SELECT intermediary_id AS id, password FROM Intermediary WHERE email = p_email
+        SELECT intermediary_id AS id, password, 'Intermediary' AS user_type 
+        FROM Intermediary WHERE email = p_email
         UNION ALL
-        SELECT transporter_id AS id, password FROM Transporter WHERE email = p_email
+        SELECT transporter_id AS id, password, 'Transporter' AS user_type 
+        FROM Transporter WHERE email = p_email
     ) AS combined
     LIMIT 1;
 END //
