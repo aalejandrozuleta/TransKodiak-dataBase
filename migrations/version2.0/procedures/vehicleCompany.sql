@@ -15,13 +15,13 @@ END //
 
 DELIMITER ;
 
+
 DELIMITER //
 
-create procedure searchCompanyByName(
-	in names varchar(50)
-) begin 
-	select nit, name from vehicle_Company where name= names;
-end
+CREATE PROCEDURE searchCompanyByName(
+	IN names varchar(50)
+) BEGIN 
+	SELECT nit, name FROM Vehicle_Company WHERE name= names;
+END //
 
 DELIMITER ;
-

@@ -1,23 +1,58 @@
 DELIMITER //
 
-CREATE PROCEDURE authGeneral (
+CREATE PROCEDURE `authGeneral` (
     IN p_email VARCHAR(50)
 )
 BEGIN
-    SELECT id, name, password, user_type FROM (
-        SELECT nit AS id, name, password, 'Vehicle_Company' AS user_type 
+    SELECT id, password, user_type FROM (
+        SELECT nit AS id, password, 'Vehicle_Company' AS user_type 
         FROM Vehicle_Company WHERE email = p_email
         UNION ALL
-        SELECT intermediary_id AS id, name, password, 'Intermediary' AS user_type 
+        SELECT intermediary_id AS id, password, 'Intermediary' AS user_type 
         FROM Intermediary WHERE email = p_email
         UNION ALL
-        SELECT transporter_id AS id, name, password, 'Transporter' AS user_type 
+        SELECT transporter_id AS id, password, 'Transporter' AS user_type 
         FROM Transporter WHERE email = p_email
     ) AS combined
     LIMIT 1;
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE SearchEmail(IN search_email VARCHAR(50))
+BEGIN
+    DECLARE found_email VARCHAR(50) DEFAULT NULL;
+
+    -- Buscar en la tabla Vehicle_Company
+    SELECT email INTO found_email
+    FROM Vehicle_Company
+    WHERE email = search_email
+    LIMIT 1;
+
+    -- Si el email no se encontró en Vehicle_Company, buscar en Intermediary
+    IF found_email IS NULL THEN
+        SELECT email INTO found_email
+        FROM Intermediary
+        WHERE email = search_email
+        LIMIT 1;
+    END IF;
+
+    -- Si el email no se encontró en Intermediary, buscar en Transporter
+    IF found_email IS NULL THEN
+        SELECT email INTO found_email
+        FROM Transporter
+        WHERE email = search_email
+        LIMIT 1;
+    END IF;
+
+    -- Retornar el email encontrado
+    SELECT found_email AS email;
+END //
+
+DELIMITER ;
+
 
 DELIMITER //
 
@@ -63,40 +98,6 @@ BEGIN
         SET password = p_new_password
         WHERE transporter_id = p_user_id;
     END IF;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE PROCEDURE SearchEmail(IN search_email VARCHAR(50))
-BEGIN
-    DECLARE found_email VARCHAR(50) DEFAULT NULL;
-
-    -- Buscar en la tabla Vehicle_Company
-    SELECT email INTO found_email
-    FROM Vehicle_Company
-    WHERE email = search_email
-    LIMIT 1;
-
-    -- Si el email no se encontró en Vehicle_Company, buscar en Intermediary
-    IF found_email IS NULL THEN
-        SELECT email INTO found_email
-        FROM Intermediary
-        WHERE email = search_email
-        LIMIT 1;
-    END IF;
-
-    -- Si el email no se encontró en Intermediary, buscar en Transporter
-    IF found_email IS NULL THEN
-        SELECT email INTO found_email
-        FROM Transporter
-        WHERE email = search_email
-        LIMIT 1;
-    END IF;
-
-    -- Retornar el email encontrado
-    SELECT found_email AS email;
 END //
 
 DELIMITER ;

@@ -1,26 +1,23 @@
--- procesos vehiculo
--- traer vehiculos
-
 DELIMITER //
 
-create procedure getVehicles()
-begin 
-	select 
-		license_plate as id,
+CREATE PROCEDURE getVehicles(
+    IN idCompany VARCHAR(30)
+)
+BEGIN
+    SELECT 
+        license_plate as id,
 		capacity,
 		vehicle_type,
 		load_type,
 		model,
 		brand
-	from
-		Vehicle
-	where 
-		stateVehicle = 'enable';
-end//
+    FROM 
+        Vehicle 
+    WHERE 
+        fk_nit = idCompany AND stateVehicle = 'enabled';
+END //
 
-DELIMITER //
-
-drop procedure getVehicles;
+DELIMITER ;
 
 -- insertar vehiculos
 
