@@ -21,6 +21,41 @@ DELIMITER ;
 
 DELIMITER //
 
+CREATE PROCEDURE SearchEmail(IN search_email VARCHAR(50))
+BEGIN
+    DECLARE found_email VARCHAR(50) DEFAULT NULL;
+
+    -- Buscar en la tabla Vehicle_Company
+    SELECT email INTO found_email
+    FROM Vehicle_Company
+    WHERE email = search_email
+    LIMIT 1;
+
+    -- Si el email no se encontró en Vehicle_Company, buscar en Intermediary
+    IF found_email IS NULL THEN
+        SELECT email INTO found_email
+        FROM Intermediary
+        WHERE email = search_email
+        LIMIT 1;
+    END IF;
+
+    -- Si el email no se encontró en Intermediary, buscar en Transporter
+    IF found_email IS NULL THEN
+        SELECT email INTO found_email
+        FROM Transporter
+        WHERE email = search_email
+        LIMIT 1;
+    END IF;
+
+    -- Retornar el email encontrado
+    SELECT found_email AS email;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
 CREATE PROCEDURE searchUserCode (
     IN p_email VARCHAR(50),
     IN p_phone varchar(15)

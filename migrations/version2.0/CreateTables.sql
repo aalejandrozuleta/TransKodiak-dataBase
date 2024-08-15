@@ -1,3 +1,7 @@
+drop database Transkodiak;
+CREATE DATABASE Transkodiak;
+USE Transkodiak;
+
 CREATE TABLE
     Card (
         card_number VARCHAR(100) NOT NULL PRIMARY KEY,
