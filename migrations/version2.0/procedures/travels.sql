@@ -8,6 +8,7 @@ CREATE PROCEDURE InsertTravel(
     IN trav_description VARCHAR(255),
     IN trav_departureDate DATE,
     IN trav_deliverDate DATE,
+    in trav_vehicle_type VARCHAR(50),
     IN trav_fk_intermediary_id INT
 )
 BEGIN
@@ -18,7 +19,8 @@ BEGIN
         payment, 
         description, 
         departureDate, 
-        deliverDate, 
+        deliverDate,
+        vehicle_type,
         fk_intermediary_id
     ) 
     VALUES (
@@ -28,7 +30,8 @@ BEGIN
         trav_payment, 
         trav_description, 
         trav_departureDate, 
-        trav_deliverDate, 
+        trav_deliverDate,
+        trav_vehicle_type,
         trav_fk_intermediary_id
     );
 end//
@@ -49,7 +52,8 @@ BEGIN
         payment, 
         description, 
         departureDate, 
-        deliverDate
+        deliverDate,
+        vehicle_type
     FROM 
         Travel
     WHERE 
@@ -58,11 +62,12 @@ END //
 
 DELIMITER ;
 
+drop procedure GetAllTravels;
 
 DELIMITER //
 
 CREATE PROCEDURE GetAllTravels()
-BEGIN
+begin 
     SELECT 
        trip_id,
         weight,
@@ -71,7 +76,8 @@ BEGIN
         payment,
         description,
         departureDate,
-        deliverDate
+        deliverDate,
+        vehicle_type
     FROM 
         Travel;
 end//

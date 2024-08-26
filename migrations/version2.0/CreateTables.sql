@@ -81,9 +81,10 @@ CREATE TABLE Travel (
     description VARCHAR(255),
     departureDate DATE NOT NULL,
     deliverDate DATE NOT NULL,
+    vehicle_type VARCHAR(50),
     stateTravel ENUM ('enabled', 'disabled') DEFAULT 'enabled',
     fk_intermediary_id INT,
     fk_transporter_id INT UNSIGNED,  -- Cambiado a INT UNSIGNED para coincidir con transporter_id
     FOREIGN KEY (fk_intermediary_id) REFERENCES Intermediary (intermediary_id),
     FOREIGN KEY (fk_transporter_id) REFERENCES Transporter (transporter_id)
-);
+)
