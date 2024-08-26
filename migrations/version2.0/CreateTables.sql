@@ -71,3 +71,19 @@ CREATE TABLE
     FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
     INDEX idx_stateVehicle (stateVehicle)
 );
+
+CREATE TABLE Travel (
+    trip_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    weight INT NOT NULL,
+    origin VARCHAR(100) NOT NULL,
+    destination VARCHAR(100) NOT NULL,
+    payment FLOAT NOT NULL,
+    description VARCHAR(255),
+    departureDate DATE NOT NULL,
+    deliverDate DATE NOT NULL,
+    stateTravel ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    fk_intermediary_id INT,
+    fk_transporter_id INT UNSIGNED,  -- Cambiado a INT UNSIGNED para coincidir con transporter_id
+    FOREIGN KEY (fk_intermediary_id) REFERENCES Intermediary (intermediary_id),
+    FOREIGN KEY (fk_transporter_id) REFERENCES Transporter (transporter_id)
+);
