@@ -25,3 +25,18 @@ CREATE PROCEDURE searchCompanyByName(
 END //
 
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE getVehicleCompanyInformation (IN idCompany VARCHAR(30)) BEGIN
+  SELECT
+    name,
+    phone,
+    email,
+    address,
+    fk_card_number AS card_number
+  FROM
+    Vehicle_Company
+  WHERE
+    nit = idCompany;
+END //
+DELIMITER ;
