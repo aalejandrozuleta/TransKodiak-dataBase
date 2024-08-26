@@ -63,3 +63,16 @@ CREATE PROCEDURE SearchVehicleByPlate(
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE DisableStateVehicle(
+    IN p_license_plate VARCHAR(10)
+)
+BEGIN
+    UPDATE Vehicle
+    SET stateVehicle = 'disabled'
+    WHERE license_plate = p_license_plate;
+END //
+
+DELIMITER ;
