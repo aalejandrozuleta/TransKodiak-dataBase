@@ -83,3 +83,16 @@ begin
 end//
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE DisableStateTravel(
+    IN p_trip_id INT
+)
+BEGIN
+    UPDATE Travel
+    SET stateTravel = 'disabled'
+    WHERE trip_id = p_trip_id;
+END //
+
+DELIMITER ;
