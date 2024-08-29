@@ -69,7 +69,7 @@ DELIMITER //
 CREATE PROCEDURE GetAllTravels()
 begin 
     SELECT 
-       trip_id,
+        trip_id,
         weight,
         origin,
         destination,
@@ -77,7 +77,8 @@ begin
         description,
         departureDate,
         deliverDate,
-        vehicle_type
+        vehicle_type,
+        fk_intermediary_id
     FROM 
         Travel;
 end//
