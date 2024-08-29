@@ -21,3 +21,21 @@ CREATE PROCEDURE SearchIntermediaryByName(
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE getIntermediaryInformation (IN idIntermediary INT)
+BEGIN
+  SELECT
+    name,
+    phone,
+    email,
+    address,
+    fk_card_number AS card_number
+  FROM
+    Intermediary
+  WHERE
+    intermediary_id = idIntermediary;
+END //
+
+DELIMITER ;
