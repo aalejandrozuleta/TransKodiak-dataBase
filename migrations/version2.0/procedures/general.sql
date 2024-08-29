@@ -83,3 +83,28 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE UpdateImageUrlByEmail(
+    IN userEmail VARCHAR(50),
+    IN newImageUrl VARCHAR(255)
+)
+BEGIN
+    -- Actualizar la tabla Vehicle_Company
+    UPDATE Vehicle_Company
+    SET imageUrl = newImageUrl
+    WHERE email = userEmail;
+    
+    -- Actualizar la tabla Intermediary
+    UPDATE Intermediary
+    SET imageUrl = newImageUrl
+    WHERE email = userEmail;
+
+    -- Actualizar la tabla Transporter
+    UPDATE Transporter
+    SET imageUrl = newImageUrl
+    WHERE email = userEmail;
+END //
+
+DELIMITER ;

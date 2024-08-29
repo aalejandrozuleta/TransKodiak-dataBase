@@ -1,5 +1,7 @@
 drop database Transkodiak;
+
 CREATE DATABASE Transkodiak;
+
 USE Transkodiak;
 
 CREATE TABLE
@@ -12,6 +14,7 @@ CREATE TABLE
 CREATE TABLE
     Vehicle_Company (
         nit VARCHAR(30) PRIMARY KEY NOT NULL,
+        imageUrl VARCHAR(255),
         name VARCHAR(50) NOT NULL,
         phone VARCHAR(15),
         email VARCHAR(50) UNIQUE,
@@ -32,6 +35,7 @@ create table
         name varchar(50) not null unique,
         email varchar(50) not null unique,
         phone varchar(15) not null unique,
+        imageUrl VARCHAR(255),
         monthly_fee float,
         address varchar(100) not null,
         password VARCHAR(255) not null,
@@ -48,6 +52,7 @@ CREATE TABLE
         identification_card VARCHAR(20) NOT NULL UNIQUE,
         email VARCHAR(50) UNIQUE,
         phone VARCHAR(15),
+        imageUrl VARCHAR(255),
         license VARCHAR(30) NOT NULL,
         statusTransporter ENUM ('Active', 'Inactive', 'In transit') DEFAULT 'Active',
         stateTransporter ENUM ('enabled', 'disabled') DEFAULT 'enabled',
@@ -58,16 +63,17 @@ CREATE TABLE
         INDEX idx_stateTransporter (stateTransporter)
     );
 
-    CREATE TABLE Vehicle (
-    license_plate varchar(10),
-    capacity varchar(30)NOT NULL,
-    vehicle_type varchar(50) NOT NULL,
-    load_type varchar(50) NOT NULL,
-    stateVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
-    model varchar(30),
-    brand varchar(30),
-    primary key (license_plate),
-    fk_nit VARCHAR(30) NOT NULL,
-    FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
-    INDEX idx_stateVehicle (stateVehicle)
-);
+CREATE TABLE
+    Vehicle (
+        license_plate varchar(10),
+        capacity varchar(30) NOT NULL,
+        vehicle_type varchar(50) NOT NULL,
+        load_type varchar(50) NOT NULL,
+        stateVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+        model varchar(30),
+        brand varchar(30),
+        primary key (license_plate),
+        fk_nit VARCHAR(30) NOT NULL,
+        FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
+        INDEX idx_stateVehicle (stateVehicle)
+    );
