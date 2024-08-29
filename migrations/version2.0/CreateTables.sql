@@ -63,17 +63,33 @@ CREATE TABLE
         INDEX idx_stateTransporter (stateTransporter)
     );
 
-CREATE TABLE
-    Vehicle (
-        license_plate varchar(10),
-        capacity varchar(30) NOT NULL,
-        vehicle_type varchar(50) NOT NULL,
-        load_type varchar(50) NOT NULL,
-        stateVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
-        model varchar(30),
-        brand varchar(30),
-        primary key (license_plate),
-        fk_nit VARCHAR(30) NOT NULL,
-        FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
-        INDEX idx_stateVehicle (stateVehicle)
-    );
+    CREATE TABLE Vehicle (
+    license_plate varchar(10),
+    capacity varchar(30)NOT NULL,
+    vehicle_type varchar(50) NOT NULL,
+    load_type varchar(50) NOT NULL,
+    stateVehicle ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    model varchar(30),
+    brand varchar(30),
+    primary key (license_plate),
+    fk_nit VARCHAR(30) NOT NULL,
+    FOREIGN KEY (fk_nit) REFERENCES Vehicle_Company (nit),
+    INDEX idx_stateVehicle (stateVehicle)
+);
+
+CREATE TABLE Travel (
+    trip_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    weight INT NOT NULL,
+    origin VARCHAR(100) NOT NULL,
+    destination VARCHAR(100) NOT NULL,
+    payment FLOAT NOT NULL,
+    description VARCHAR(255),
+    departureDate DATE NOT NULL,
+    deliverDate DATE NOT NULL,
+    vehicle_type VARCHAR(50),
+    stateTravel ENUM ('enabled', 'disabled') DEFAULT 'enabled',
+    fk_intermediary_id INT,
+    fk_transporter_id INT UNSIGNED,  -- Cambiado a INT UNSIGNED para coincidir con transporter_id
+    FOREIGN KEY (fk_intermediary_id) REFERENCES Intermediary (intermediary_id),
+    FOREIGN KEY (fk_transporter_id) REFERENCES Transporter (transporter_id)
+)
