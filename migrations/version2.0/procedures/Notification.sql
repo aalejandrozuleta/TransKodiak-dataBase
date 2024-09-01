@@ -43,3 +43,51 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE SetNotificationAccepted(IN notification_id INT)
+BEGIN
+    UPDATE Notification
+    SET status = 'accepted'
+    WHERE id = notification_id;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE SetTransporterInProgress(IN transporterId INT)
+BEGIN
+    UPDATE Transporter
+    SET statusTransporter = 'In transit'
+    WHERE transporter_id = transporterId;
+end //
+
+DELIMITER ;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE SetTransporterInDenegad(IN transporterId INT)
+BEGIN
+    UPDATE Transporter
+    SET statusTransporter = 'Active'
+    WHERE transporter_id = transporterId;
+end //
+
+DELIMITER ;
+
+DELIMITER //
+
+
+CREATE PROCEDURE SetNotificationRejected(IN notification_id INT)
+BEGIN
+    UPDATE Notification
+    SET status = 'rejected'
+    WHERE id = notification_id;
+END //
+
+DELIMITER ;
