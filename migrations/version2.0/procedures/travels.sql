@@ -66,23 +66,29 @@ drop procedure GetAllTravels;
 
 DELIMITER //
 
+-- Paso 2: Define el procedimiento
 CREATE PROCEDURE GetAllTravels()
-begin 
+BEGIN
     SELECT 
-        trip_id,
-        weight,
-        origin,
-        destination,
-        payment,
-        description,
-        departureDate,
-        deliverDate,
-        vehicle_type,
-        fk_intermediary_id
+        t.trip_id,
+        t.weight,
+        t.origin,
+        t.destination,
+        t.payment,
+        t.description,
+        t.departureDate,
+        t.deliverDate,
+        t.vehicle_type,
+        t.stateTravel,
+        t.fk_intermediary_id,
+        i.phone
     FROM 
-        Travel;
-end//
+        Travel AS t
+    LEFT JOIN 
+        Intermediary AS i ON t.fk_intermediary_id = i.intermediary_id;
+END //
 
+-- Paso 3: Restaura el delimitador a su estado original
 DELIMITER ;
 
 DELIMITER //
