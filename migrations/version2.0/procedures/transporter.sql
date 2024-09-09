@@ -42,8 +42,8 @@ BEGIN
     SELECT 
         transporter_id AS id,
         name,
-        type_vehicle,
         email,
+        identification_card,
         statusTransporter
     FROM 
         Transporter 
