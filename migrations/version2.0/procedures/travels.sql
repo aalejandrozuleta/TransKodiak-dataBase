@@ -62,8 +62,6 @@ END //
 
 DELIMITER ;
 
-drop procedure GetAllTravels;
-
 DELIMITER //
 
 CREATE PROCEDURE GetAllTravels()

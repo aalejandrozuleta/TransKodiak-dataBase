@@ -6,13 +6,12 @@ CREATE PROCEDURE InsertTransporter(
     IN trans_email VARCHAR(50),
     IN trans_phone VARCHAR(15),
     IN trans_license VARCHAR(30),
-    IN trans_typeVehicle VARCHAR(30),
     IN trans_password VARCHAR(255),
     IN trans_nit VARCHAR(20)  -- Reference to NIT of the Intermediary
 )
 BEGIN
-    INSERT INTO Transporter (name, identification_card, email, phone, license,typeVehicle, password, fk_nit)
-    VALUES (trans_name, trans_id_number, trans_email, trans_phone, trans_license,trans_typeVehicle, trans_password, trans_nit);
+    INSERT INTO Transporter (name, identification_card, email, phone, license, password, fk_nit)
+    VALUES (trans_name, trans_id_number, trans_email, trans_phone, trans_license, trans_password, trans_nit);
 END //
 
 DELIMITER ;
