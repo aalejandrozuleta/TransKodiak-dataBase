@@ -97,12 +97,14 @@ DELIMITER //
 CREATE PROCEDURE GetNotifications(IN intermediary_id INT)
 BEGIN
     SELECT 
+        N.id AS notification_id, -- Añadir el id de la notificación
         T.trip_id,
         TR.name AS transporter_name,
         TR.imageUrl AS imgUserTransporter,
         T.origin,
         T.destination,
-        T.description
+        T.description,
+        TR.transporter_id
     FROM 
         Notification N
     JOIN 
