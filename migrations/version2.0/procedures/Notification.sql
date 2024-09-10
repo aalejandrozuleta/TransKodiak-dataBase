@@ -121,26 +121,27 @@ DELIMITER //
 CREATE PROCEDURE AcceptNotificationAndUpdateTransporters(IN notification_id INT)
 BEGIN
     DECLARE transporterId INT;
-    
-    -- Obtener el ID del transportador asociado a la notificación aceptada
-    SELECT fk_transporter_id INTO transporterId
+    DECLARE tripId INT;
+
+    -- Obtener el ID del transportador y el viaje asociado a la notificación aceptada
+    SELECT fk_transporter_id, fk_trip_id INTO transporterId, tripId
     FROM Notification
     WHERE id = notification_id;
-    
+
     -- Aceptar la notificación
     UPDATE Notification
     SET status = 'accepted'
     WHERE id = notification_id;
-    
+
     -- Cambiar el estado del transportador que aceptó la notificación a "In transit"
     UPDATE Transporter
     SET statusTransporter = 'In transit'
     WHERE transporter_id = transporterId;
-    
+
     -- Rechazar todas las demás notificaciones pendientes del mismo viaje
     UPDATE Notification
     SET status = 'rejected'
-    WHERE fk_trip_id = (SELECT fk_trip_id FROM Notification WHERE id = notification_id)
+    WHERE fk_trip_id = tripId
       AND status = 'pending'
       AND id != notification_id;
 
@@ -150,7 +151,7 @@ BEGIN
     WHERE transporter_id IN (
         SELECT fk_transporter_id
         FROM Notification
-        WHERE fk_trip_id = (SELECT fk_trip_id FROM Notification WHERE id = notification_id)
+        WHERE fk_trip_id = tripId
           AND status = 'rejected'
     );
 END //
