@@ -64,3 +64,62 @@ CREATE PROCEDURE SearchTransporterByIdentificationCard(
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetHistoryTravelByTransporter (
+    IN p_transporter_id INT
+)
+BEGIN
+    SELECT 
+        t.destination,
+        t.payment,
+        t.departureDate,
+        t.deliverDate,
+        i.intermediary_id AS fk_intermediary_id,
+        i.name AS nameIntermediary,
+        i.email AS emailIntermediary
+    FROM 
+        Travel t
+    JOIN 
+        Intermediary i ON t.fk_intermediary_id = i.intermediary_id
+    WHERE 
+        t.fk_transporter_id = p_transporter_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetTransporterDetailsById(
+    IN p_transporter_id INT UNSIGNED
+)
+BEGIN
+    SELECT
+        name,
+        identification_card,
+        email,
+        phone,
+        imageUrl,
+        license
+    FROM
+        Transporter
+    WHERE
+        transporter_id = p_transporter_id
+        AND stateTransporter = 'enabled';
+END//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE activeTransporter(
+    IN p_id INT
+)
+BEGIN
+    UPDATE Transporter
+    SET stateTransporter = 'enabled'
+    WHERE Transporter_id = p_id;
+END //
+
+DELIMITER ;

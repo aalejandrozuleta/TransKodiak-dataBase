@@ -76,3 +76,24 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetVehicleDetailsByLicensePlate(
+    IN p_license_plate VARCHAR(10)
+)
+BEGIN
+    SELECT
+        capacity,
+        vehicle_type,
+        load_type,
+        model,
+        brand
+    FROM
+        Vehicle
+    WHERE
+        license_plate = p_license_plate
+        AND stateVehicle = 'enabled';
+END //
+
+DELIMITER ;

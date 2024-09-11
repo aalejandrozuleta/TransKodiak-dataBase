@@ -101,3 +101,28 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetTravelDetailsByTripId(
+    IN p_trip_id INT
+)
+BEGIN
+    SELECT
+        weight,
+        origin,
+        destination,
+        payment,
+        description,
+        departureDate,
+        deliverDate,
+        vehicle_type
+    FROM
+        Travel
+    WHERE
+        trip_id = p_trip_id
+        AND stateTravel = 'enabled';
+END //
+
+DELIMITER ;
