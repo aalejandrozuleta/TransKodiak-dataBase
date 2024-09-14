@@ -108,3 +108,78 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetNotificationCountsByTransporterId(
+    IN input_transporter_id INT
+)
+BEGIN
+    SELECT 
+        (SELECT COUNT(*) 
+         FROM Notification 
+         WHERE fk_transporter_id = input_transporter_id 
+           AND status = 'accepted') AS accepted_count,
+        (SELECT COUNT(*) 
+         FROM Notification 
+         WHERE fk_transporter_id = input_transporter_id 
+           AND status = 'rejected') AS rejected_count;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetIntermediaryStatistics(
+    IN input_intermediary_id INT
+)
+BEGIN
+    -- Viajes publicados
+    SELECT 
+        (SELECT COUNT(*) 
+         FROM Notification 
+         WHERE fk_intermediary_id = input_intermediary_id) AS published_trips,
+        
+        -- Viajes denegados
+        (SELECT COUNT(*) 
+         FROM Notification 
+         WHERE fk_intermediary_id = input_intermediary_id 
+           AND status = 'rejected') AS rejected_trips,
+        
+        -- Viajes confirmados
+        (SELECT COUNT(*) 
+         FROM Notification 
+         WHERE fk_intermediary_id = input_intermediary_id 
+           AND status = 'accepted') AS accepted_trips;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetCompanyStatistics(
+    IN input_nit VARCHAR(30)
+)
+BEGIN
+    -- Vehículos registrados
+    SELECT 
+        (SELECT COUNT(*) 
+         FROM Vehicle 
+         WHERE fk_nit = input_nit) AS vehicle_count,
+         
+        -- Transportadores registrados
+        (SELECT COUNT(*) 
+         FROM Transporter 
+         WHERE fk_nit = input_nit) AS transporter_count,
+         
+        -- Viajes realizados (aceptados) por transportadores de la empresa
+        (SELECT COUNT(*) 
+         FROM Notification N
+         JOIN Transporter T ON N.fk_transporter_id = T.transporter_id
+         WHERE T.fk_nit = input_nit 
+           AND N.status = 'accepted') AS trip_count;
+END //
+
+DELIMITER ;
