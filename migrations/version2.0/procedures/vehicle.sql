@@ -97,3 +97,20 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetDisabledTransportersByNit(IN input_fk_nit VARCHAR(30))
+BEGIN
+    SELECT imageUrl AS imgUrl, 
+           name, 
+           identification_card AS identification, 
+           email, 
+           statusTransporter 
+    FROM Transporter 
+    WHERE stateTransporter = 'disabled' 
+      AND fk_nit = input_fk_nit;
+END //
+
+DELIMITER ;
