@@ -39,3 +39,25 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE getAcceptedTripsByIntermediary(IN intermediaryId INT)
+BEGIN
+    SELECT 
+        t.origin AS trip_origin, 
+        t.destination AS trip_destination, 
+        t.payment AS trip_payment,
+        trans.name AS transporter_name, 
+        trans.phone AS transporter_phone, 
+        trans.email AS transporter_email 
+    FROM 
+        Notification n
+    INNER JOIN 
+        Travel t ON n.fk_trip_id = t.trip_id 
+    INNER JOIN 
+        Transporter trans ON n.fk_transporter_id = trans.transporter_id 
+    WHERE 
+        n.fk_intermediary_id = intermediaryId 
+        AND n.status = 'accepted'; 
+END //
+DELIMITER ;
