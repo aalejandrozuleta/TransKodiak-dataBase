@@ -140,6 +140,11 @@ BEGIN
     SET statusTransporter = 'In transit'
     WHERE transporter_id = transporterId;
 
+    -- Cambiar el estado del viaje a "disabled"
+    UPDATE Travel
+    SET stateTravel = 'disabled'
+    WHERE trip_id = tripId;
+
     -- Rechazar todas las demás notificaciones pendientes del mismo viaje
     UPDATE Notification
     SET status = 'rejected'
@@ -159,6 +164,7 @@ BEGIN
 END //
 
 DELIMITER ;
+
 
 DELIMITER //
 

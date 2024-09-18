@@ -64,7 +64,8 @@ DELIMITER ;
 
 DELIMITER //
 
--- Paso 2: Define el procedimiento
+DELIMITER //
+
 CREATE PROCEDURE GetAllTravels()
 BEGIN
     SELECT 
@@ -83,11 +84,13 @@ BEGIN
     FROM 
         Travel AS t
     LEFT JOIN 
-        Intermediary AS i ON t.fk_intermediary_id = i.intermediary_id;
+        Intermediary AS i ON t.fk_intermediary_id = i.intermediary_id
+    WHERE 
+        t.stateTravel = 'enabled';  -- Filtrar solo los viajes habilitados
 END //
 
--- Paso 3: Restaura el delimitador a su estado original
 DELIMITER ;
+
 
 DELIMITER //
 
