@@ -61,3 +61,15 @@ BEGIN
         AND n.status = 'accepted'; 
 END //
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE SetTransporterActive(IN transporter_id_input INT)
+BEGIN
+    -- Cambiar el estado del transportador a "Active"
+    UPDATE Transporter
+    SET statusTransporter = 'Active'
+    WHERE transporter_id = transporter_id_input;
+END //
+
+DELIMITER ;
