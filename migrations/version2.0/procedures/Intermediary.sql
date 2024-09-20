@@ -73,3 +73,29 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetTravelByIntermediary (
+    IN intermediaryId INT
+)
+BEGIN
+    SELECT 
+        trip_id, 
+        weight, 
+        origin, 
+        destination, 
+        payment, 
+        description, 
+        departureDate, 
+        deliverDate, 
+        vehicle_type, 
+        stateTravel 
+    FROM 
+        Travel
+    WHERE 
+        fk_intermediary_id = intermediaryId;
+END //
+
+DELIMITER ;
